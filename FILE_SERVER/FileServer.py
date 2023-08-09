@@ -44,10 +44,17 @@ def StartServer():
         #file.write(msg)
         #conn.send('File data recived.'.encode(FORMAT))
        
+        i = 2
 
         while True:
-            msg = conn.recv(SIZE).decode(FORMAT)
-            cmd, data = msg.split(':')
+            
+            if i % 2 == 0:
+                msg = conn.recv(SIZE).decode(FORMAT)
+                cmd, data = msg.split(':')
+                i += 1
+            else:
+                msg = conn.recv(SIZE).decode(FORMAT)
+                cmd, data = msg.split(':')
             
             #recive .dat filenames
             if cmd == 'FILENAME':
@@ -57,10 +64,10 @@ def StartServer():
                 conn.send('Filename recived.'.encode(FORMAT))
             
             #recive .dat file data
-            #elif cmd == 'DATA':
-                #print(f'[CLIENT] Recieving the file data.')
-                #file.write(data)
-                #conn.send('File data recived.'.encode(FORMAT))
+            elif cmd == 'DATA':
+                print(f'[CLIENT] Recieving the file data.')
+                file.write(data)
+                conn.send('File data recived.'.encode(FORMAT))
             
             elif cmd == 'FINISH':
                 file.close()

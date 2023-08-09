@@ -46,13 +46,13 @@ def SendToFileServer(directoryName):
         print(f'[SERVER] {msg}\n')
         
         #sending .dat file data
-        #file = open(os.path.join(path, file_name), 'r')
-        #file_data = file.read()
-        #msg = f'DATA:{file_data}'
-        #client.send(msg.encode(FORMAT))
+        file = open(os.path.join(path, file_name), 'r', encoding='iso-8859-15')
+        file_data = file.read()
+        msg = f'DATA:{file_data}'
+        client.send(msg.encode(FORMAT))
         #server reply
-        #msg = client.recv(SIZE).decode(FORMAT)
-        #print(f'[SERVER] {msg}\n')
+        msg = client.recv(SIZE).decode(FORMAT)
+        print(f'[SERVER] {msg}\n')
         
         #sending the close command
         msg = f'FINISH:Complete data send'
