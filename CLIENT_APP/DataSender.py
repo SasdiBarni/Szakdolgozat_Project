@@ -38,6 +38,7 @@ def SendToFileServer(directoryName):
     for file_name in files:
         
         #sending .dat file names
+        #FILESIZE = os.path.getsize(path + '\\' + str(file_name))
         msg = f'FILENAME:{file_name}'
         print(f'[CLIENT] Sending file name: {file_name}')
         client.send(msg.encode(FORMAT))
@@ -48,8 +49,8 @@ def SendToFileServer(directoryName):
         #sending .dat file data
         file = open(os.path.join(path, file_name), 'r', encoding='iso-8859-15')
         file_data = file.read()
-        msg = f'DATA:{file_data}'
-        client.send(msg.encode(FORMAT))
+        msg = f'DATA::{file_data}'
+        client.send(msg.encode('iso-8859-15'))
         #server reply
         msg = client.recv(SIZE).decode(FORMAT)
         print(f'[SERVER] {msg}\n')

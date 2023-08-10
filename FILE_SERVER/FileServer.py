@@ -53,14 +53,15 @@ def StartServer():
                 cmd, data = msg.split(':')
                 i += 1
             else:
-                msg = conn.recv(SIZE).decode(FORMAT)
-                cmd, data = msg.split(':')
+                msg = conn.recv(SIZE).decode('iso-8859-15')
+                cmd, data = msg.split('::')
+                i += 1
             
             #recive .dat filenames
             if cmd == 'FILENAME':
                 print(f'[CLIENT] Recived the filename: {data}.')
                 file_path = os.path.join(folder_path, data)
-                file = open(file_path, 'w')
+                file = open(file_path, 'w', encoding='iso-8859-15')
                 conn.send('Filename recived.'.encode(FORMAT))
             
             #recive .dat file data
