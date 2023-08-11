@@ -21,53 +21,58 @@ def SendToFileServer(directoryName):
     msg = client.recv(SIZE).decode(FORMAT)
     print(f'[SERVER] {msg}\n')
     
+    """
     #sending .mrxs file content
-    #file = open(os.path.join(directoryName, directoryName), 'r')
-    #file_data = file.read()
-    #msg = f'{file_data}'
-    #client.sendall(msg.encode(FORMAT))
+    file = open(os.path.join(directoryName, directoryName), 'r')
+    file_data = file.read()
+    msg = f'{file_data}'
+    client.sendall(msg.encode(FORMAT))
     
     #server reply
-    #msg = client.recv(SIZE).decode(FORMAT)
-    #print(f'[SERVER] {msg}\n')
+    msg = client.recv(SIZE).decode(FORMAT)
+    print(f'[SERVER] {msg}\n')
+    """
+    
     
     #list files in directory
     path = os.path.join(directoryName, directoryName)
     files = sorted(os.listdir(path))
     
+    while True:
+        with open(os.path.join(path, 'Data0000.dat'), 'rb') as f:
+            client.sendfile(f, 0)
+        client.close()
+    
+    """
     for file_name in files:
         
-        #sending .dat file names
         msg = f'FILENAME:{file_name}'
         print(f'[CLIENT] Sending file name: {file_name}')
         client.send(msg.encode(FORMAT))
         
         print(file_name)
-        #server reply
         msg = client.recv(SIZE).decode(FORMAT)
         print(f'[SERVER] {msg}\n')
         
-        #sending .dat file data
         file = open(os.path.join(path, file_name), 'r', encoding='iso-8859-15')
         file_data = file.read()
         msg = f'DATA::{file_data}'
         client.send(msg.encode('iso-8859-15'))
-        #server reply
         msg = client.recv(SIZE).decode(FORMAT)
         print(f'[SERVER] {msg}\n')
         
-        #sending the close command
         msg = f'FINISH:Complete data send'
         print(msg)
         client.send(msg.encode(FORMAT))
-        #server reply
         msg = client.recv(SIZE).decode(FORMAT)
         print(f'[SERVER] {msg}\n')
         
-    #closing connection from server
     msg = f'CLOSE:File transfer is completed'
     client.send(msg.encode(FORMAT))
     client.close()
+    
+    """
+    
     
 
 def SendToCentralServer(date, user, jobID, directoryName):

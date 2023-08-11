@@ -40,11 +40,23 @@ def StartServer():
         file_path = os.path.join(SERVER_FOLDER, folder_name, mrxs_name)
         file = open(file_path, 'w')
         
-        #msg = conn.recv(SIZE).decode(FORMAT)
-        #print(f'[CLIENT] Recieving the file data.')
-        #file.write(msg)
-        #conn.send('File data recived.'.encode(FORMAT))
-       
+        CHUNK_SIZE = 8 * 1024
+
+        chunk = server.recv(CHUNK_SIZE)
+        while chunk:
+            chunk = server.recv(CHUNK_SIZE)
+            file = open(file_path, 'w', encoding='iso-8859-15')
+            file.write(chunk)
+        server.close()
+        
+        """
+        msg = conn.recv(SIZE).decode(FORMAT)
+        print(f'[CLIENT] Recieving the file data.')
+        file.write(msg)
+        conn.send('File data recived.'.encode(FORMAT))
+        """
+        
+        """
         i = 0
         
         isFileName = True
@@ -91,7 +103,7 @@ def StartServer():
                 conn.close()
                 print(f'[CLIENT] {data}')
                 break
-
+        """
     
 if __name__ == '__main__':
     main()
