@@ -1,5 +1,6 @@
 import socket
 import os
+import sys
 
 def main():
     StartServer()
@@ -44,18 +45,28 @@ def StartServer():
         #file.write(msg)
         #conn.send('File data recived.'.encode(FORMAT))
        
-        i = 2
+        i = 0
+        
+        isFileName = True
 
         while True:
             
-            if i % 2 == 0:
+            if isFileName:
                 msg = conn.recv(SIZE).decode(FORMAT)
                 cmd, data = msg.split(':')
-                i += 1
+                isFileName = False
+                i = 0
             else:
                 msg = conn.recv(SIZE).decode('iso-8859-15')
-                cmd, data = msg.split('::')
-                i += 1
+                if i == 0:                    
+                    cmd, data = msg.split('::')
+                else:
+                    print(str(msg))
+                    if 'FINISH:Complete data send' in msg:
+                        cmd, data = msg.split(':')
+                    else:
+                        cmd = 'DATA'
+                        data = msg
             
             #recive .dat filenames
             if cmd == 'FILENAME':
@@ -66,6 +77,7 @@ def StartServer():
             
             #recive .dat file data
             elif cmd == 'DATA':
+                i = 1
                 print(f'[CLIENT] Recieving the file data.')
                 file.write(data)
                 conn.send('File data recived.'.encode(FORMAT))

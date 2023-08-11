@@ -25,7 +25,7 @@ def SendToFileServer(directoryName):
     #file = open(os.path.join(directoryName, directoryName), 'r')
     #file_data = file.read()
     #msg = f'{file_data}'
-    #client.send(msg.encode(FORMAT))
+    #client.sendall(msg.encode(FORMAT))
     
     #server reply
     #msg = client.recv(SIZE).decode(FORMAT)
@@ -38,10 +38,11 @@ def SendToFileServer(directoryName):
     for file_name in files:
         
         #sending .dat file names
-        #FILESIZE = os.path.getsize(path + '\\' + str(file_name))
         msg = f'FILENAME:{file_name}'
         print(f'[CLIENT] Sending file name: {file_name}')
         client.send(msg.encode(FORMAT))
+        
+        print(file_name)
         #server reply
         msg = client.recv(SIZE).decode(FORMAT)
         print(f'[SERVER] {msg}\n')
@@ -57,6 +58,7 @@ def SendToFileServer(directoryName):
         
         #sending the close command
         msg = f'FINISH:Complete data send'
+        print(msg)
         client.send(msg.encode(FORMAT))
         #server reply
         msg = client.recv(SIZE).decode(FORMAT)
