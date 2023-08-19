@@ -37,10 +37,33 @@ def StartServer():
             conn.send(f'Folder ({folder_name}) already exists.'.encode(FORMAT))
 
         file_path = os.path.join(SERVER_FOLDER, folder_name, mrxs_name)
-        file = open(file_path, 'w')        
+        file = open(file_path, 'wb')
         
+        i = 0
         
         while True:
+            
+            if i == 0:
+                file_bytes = b''
+            
+                done = False
+                x = 0
+        
+                while not done:
+                    x += 1
+                    if file_bytes[-5:] == b'<END>':
+                        file_bytes = file_bytes[:len(file_bytes) - 5]
+                        done = True
+                    else:
+                        file_data = conn.recv(SIZE)
+                        file_bytes += file_data
+            
+                i = 1
+                file.write(file_bytes)
+                print(f'[SERVER] File data recived and saved.\n')
+                conn.send('File data recived and saved.'.encode(FORMAT))
+                file.close()        
+        
             
             file_name = conn.recv(SIZE).decode(FORMAT)
             print(f'[CLIENT] Recived the filename: {file_name}.')
@@ -51,21 +74,24 @@ def StartServer():
             conn.send('Filesize recived.'.encode(FORMAT))
             
             file_path = os.path.join(folder_path, file_name)
-            file = open(file_path, 'w', encoding='iso-8859-15')
+            file = open(file_path, 'wb')
             
-            file_bytes = f''
+            file_bytes = b''
             
-            while True:
-                print(f'[CLIENT] Recieving the file data...')
-                file_data = conn.recv(SIZE).decode('iso-8859-15')
-                if file_data[-5:] == f'<END>':
-                    file_data = file_data[:len(file_data) - 5]
-                    file_bytes += file_data
-                    break
+            done = False
+            x = 0
+                        
+            while not done:
+                x += 1
+                if file_bytes[-5:] == b'<END>':
+                    file_bytes = file_bytes[:len(file_bytes) - 5]
+                    done = True
                 else:
+                    file_data = conn.recv(SIZE)
                     file_bytes += file_data
             
             file.write(file_bytes)
+            print(f'[SERVER] File data recived and saved.\n')
             conn.send('File data recived and saved.'.encode(FORMAT))
             file.close()
             

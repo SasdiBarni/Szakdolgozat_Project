@@ -22,17 +22,18 @@ def SendToFileServer(directoryName):
     msg = client.recv(SIZE).decode(FORMAT)
     print(f'[SERVER] {msg}\n')
     
-    """
     #sending .mrxs file content
-    file = open(os.path.join(directoryName, directoryName), 'r')
+    file = open(os.path.join(directoryName, directoryName + '.mrxs'), 'rb')
     file_data = file.read()
-    msg = f'{file_data}'
-    client.sendall(msg.encode(FORMAT))
+    print('[CLIENT] Sending .mrxs file data...')
+    client.sendall(file_data)
+    client.send(b'<END>')
+    file.close()
     
     #server reply
     msg = client.recv(SIZE).decode(FORMAT)
     print(f'[SERVER] {msg}\n')
-    """
+    
     
     #list files in directory
     path = os.path.join(directoryName, directoryName)
@@ -41,7 +42,7 @@ def SendToFileServer(directoryName):
     
     for file_name in files:
         
-        file = open(os.path.join(path, file_name), 'r', encoding='iso-8859-15')
+        file = open(os.path.join(path, file_name), 'rb')
         file_size = os.path.getsize(os.path.join(path, file_name))
         
         msg = f'{file_name}'
@@ -57,12 +58,13 @@ def SendToFileServer(directoryName):
         
         data = file.read()
         print('[CLIENT] Sending file data...')
-        client.sendall(data.encode('iso-8859-15'))
-        client.send('<END>'.encode('iso-8859-15'))
+        client.sendall(data)
+        client.send(b'<END>')
+        file.close()
         
         msg = client.recv(SIZE).decode(FORMAT)
         print(f'[SERVER] {msg}\n')
-        file.close()
+        
         
         
     msg = f'CLOSE:File transfer is completed'
