@@ -1,6 +1,5 @@
 import socket
 import os
-import sys
 
 def main():
     StartServer()
@@ -38,72 +37,39 @@ def StartServer():
             conn.send(f'Folder ({folder_name}) already exists.'.encode(FORMAT))
 
         file_path = os.path.join(SERVER_FOLDER, folder_name, mrxs_name)
-        file = open(file_path, 'w')
+        file = open(file_path, 'w')        
         
-        CHUNK_SIZE = 8 * 1024
-
-        chunk = server.recv(CHUNK_SIZE)
-        while chunk:
-            chunk = server.recv(CHUNK_SIZE)
-            file = open(file_path, 'w', encoding='iso-8859-15')
-            file.write(chunk)
-        server.close()
         
-        """
-        msg = conn.recv(SIZE).decode(FORMAT)
-        print(f'[CLIENT] Recieving the file data.')
-        file.write(msg)
-        conn.send('File data recived.'.encode(FORMAT))
-        """
-        
-        """
-        i = 0
-        
-        isFileName = True
-
         while True:
             
-            if isFileName:
-                msg = conn.recv(SIZE).decode(FORMAT)
-                cmd, data = msg.split(':')
-                isFileName = False
-                i = 0
-            else:
-                msg = conn.recv(SIZE).decode('iso-8859-15')
-                if i == 0:                    
-                    cmd, data = msg.split('::')
+            file_name = conn.recv(SIZE).decode(FORMAT)
+            print(f'[CLIENT] Recived the filename: {file_name}.')
+            conn.send('Filename recived.'.encode(FORMAT))
+            
+            file_size = conn.recv(SIZE).decode(FORMAT)
+            print(f'[CLIENT] Recived the filesize: {file_size}.')
+            conn.send('Filesize recived.'.encode(FORMAT))
+            
+            file_path = os.path.join(folder_path, file_name)
+            file = open(file_path, 'w', encoding='iso-8859-15')
+            
+            file_bytes = f''
+            
+            while True:
+                print(f'[CLIENT] Recieving the file data...')
+                file_data = conn.recv(SIZE).decode('iso-8859-15')
+                if file_data[-5:] == f'<END>':
+                    file_data = file_data[:len(file_data) - 5]
+                    file_bytes += file_data
+                    break
                 else:
-                    print(str(msg))
-                    if 'FINISH:Complete data send' in msg:
-                        cmd, data = msg.split(':')
-                    else:
-                        cmd = 'DATA'
-                        data = msg
+                    file_bytes += file_data
             
-            #recive .dat filenames
-            if cmd == 'FILENAME':
-                print(f'[CLIENT] Recived the filename: {data}.')
-                file_path = os.path.join(folder_path, data)
-                file = open(file_path, 'w', encoding='iso-8859-15')
-                conn.send('Filename recived.'.encode(FORMAT))
+            file.write(file_bytes)
+            conn.send('File data recived and saved.'.encode(FORMAT))
+            file.close()
             
-            #recive .dat file data
-            elif cmd == 'DATA':
-                i = 1
-                print(f'[CLIENT] Recieving the file data.')
-                file.write(data)
-                conn.send('File data recived.'.encode(FORMAT))
-            
-            elif cmd == 'FINISH':
-                file.close()
-                print(f'[CLIENT] {data}.\n')
-                conn.send('The data is saved.'.encode(FORMAT))
-            
-            elif cmd == 'CLOSE':
-                conn.close()
-                print(f'[CLIENT] {data}')
-                break
-        """
+        
     
 if __name__ == '__main__':
     main()

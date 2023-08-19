@@ -1,6 +1,7 @@
 import socket               # Import socket module
 import os
 
+
 def SendToFileServer(directoryName):
     SIZE = 1024
     FORMAT = 'utf-8'
@@ -33,48 +34,42 @@ def SendToFileServer(directoryName):
     print(f'[SERVER] {msg}\n')
     """
     
-    
     #list files in directory
     path = os.path.join(directoryName, directoryName)
     files = sorted(os.listdir(path))
     
-    while True:
-        with open(os.path.join(path, 'Data0000.dat'), 'rb') as f:
-            client.sendfile(f, 0)
-        client.close()
     
-    """
     for file_name in files:
         
-        msg = f'FILENAME:{file_name}'
+        file = open(os.path.join(path, file_name), 'r', encoding='iso-8859-15')
+        file_size = os.path.getsize(os.path.join(path, file_name))
+        
+        msg = f'{file_name}'
         print(f'[CLIENT] Sending file name: {file_name}')
         client.send(msg.encode(FORMAT))
-        
-        print(file_name)
         msg = client.recv(SIZE).decode(FORMAT)
         print(f'[SERVER] {msg}\n')
         
-        file = open(os.path.join(path, file_name), 'r', encoding='iso-8859-15')
-        file_data = file.read()
-        msg = f'DATA::{file_data}'
-        client.send(msg.encode('iso-8859-15'))
+        print(f'[CLIENT] Sending file size: {file_size}')
+        client.send(str(file_size).encode(FORMAT))
         msg = client.recv(SIZE).decode(FORMAT)
         print(f'[SERVER] {msg}\n')
         
-        msg = f'FINISH:Complete data send'
-        print(msg)
-        client.send(msg.encode(FORMAT))
+        data = file.read()
+        print('[CLIENT] Sending file data...')
+        client.sendall(data.encode('iso-8859-15'))
+        client.send('<END>'.encode('iso-8859-15'))
+        
         msg = client.recv(SIZE).decode(FORMAT)
         print(f'[SERVER] {msg}\n')
+        file.close()
+        
         
     msg = f'CLOSE:File transfer is completed'
     client.send(msg.encode(FORMAT))
     client.close()
     
-    """
     
-    
-
 def SendToCentralServer(date, user, jobID, directoryName):
     SIZE = 1024
     FORMAT = 'utf-8'
