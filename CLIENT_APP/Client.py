@@ -2,9 +2,8 @@ import os
 import DataSender
 from tkinter import *
 from tkinter import messagebox
-from tkinter import ttk, filedialog
+from tkinter import filedialog
 from datetime import datetime
-import socket
 
 class DatasForServer:
     def __init__(myobject, Date, User, JobID, Path, directoryName):

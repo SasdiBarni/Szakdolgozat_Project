@@ -66,8 +66,7 @@ def SendToFileServer(directoryName):
         print(f'[SERVER] {msg}\n')
         
         
-        
-    msg = f'CLOSE:File transfer is completed'
+    msg = f'File transfer complete'
     client.send(msg.encode(FORMAT))
     client.close()
     

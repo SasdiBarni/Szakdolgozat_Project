@@ -12,11 +12,8 @@ def main():
     directoryName = data[3]
     
     print(Date, User, JobID, directoryName)
-    
-    #SlideApplication.OpenSlide(SlideApplication.ssi, None)
-    
-    #! When the server recives the data USE THIS 'directory_name' needs to be changed
-    #SlideApplication.OpenSlide(SlideApplication.ssi, directory_name)
+        
+    SlideApplication.OpenSlide(SlideApplication.ssi, directoryName)
 
 def StartServer():
     IP = socket.gethostbyname(socket.gethostname())

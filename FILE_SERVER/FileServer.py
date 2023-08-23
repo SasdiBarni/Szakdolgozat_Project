@@ -60,10 +60,9 @@ def StartServer():
             
                 i = 1
                 file.write(file_bytes)
-                print(f'[SERVER] File data recived and saved.\n')
-                conn.send('File data recived and saved.'.encode(FORMAT))
+                print(f'[SERVER] .mrxs file data recived and saved.\n')
+                conn.send('.mrxs file data recived and saved.'.encode(FORMAT))
                 file.close()        
-        
             
             file_name = conn.recv(SIZE).decode(FORMAT)
             print(f'[CLIENT] Recived the filename: {file_name}.')
