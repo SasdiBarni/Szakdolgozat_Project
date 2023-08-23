@@ -1,5 +1,6 @@
 import simpleslideinterface
 import json
+import numpy as np
 
 base_url='http://localhost:5120/'
 ssi = simpleslideinterface.MinimalWrapper(base_url=base_url, raise_for_status=True)
@@ -26,4 +27,11 @@ def GetTilesFromSlide(ssi, slide_token, properties):
     for i  in range(width):
         for j in range(height):
             image = ssi.get_image('slide/{}/tile', slide_token, encoding='BMP_RAW', x1=i, y1=j, x2=i, y2=j, magnification=1)
+            
+            if np.mean(image) == 255:
+                print()
+            else:
+                print()
+                #else ágon lesz a feldolgozás
+                
             #image.save('C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\CENTRAL_SERVER\\TILES\\' + slide_token + '__'+ str(i) + '__' + str(j) + '.bmp')
