@@ -99,7 +99,7 @@ def ClientWindow(user):
         else:
             messagebox.showinfo(title='Error', message='Please select a file and a job!')    
     
-    #! results access on file server
+    #! CHANGE PATH TO SERVER RESULTS PATH \\\\0.0.0.0 ADD IP IN FRONT OF PATH
     def ResultsCommand():
         os.system("explorer C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results")
     
@@ -117,7 +117,7 @@ def ClientWindow(user):
       
     OPTIONS = [
         '-- Select from list below --',
-        'Cell seed detection'
+        'Cell seed detection and counting'
     ]
 
     algorythms = StringVar(window)
