@@ -13,7 +13,7 @@ def main():
     
     print(Date, User, JobID, directoryName)
         
-    SlideApplication.OpenSlide(SlideApplication.ssi, directoryName)
+    SlideApplication.OpenSlide(SlideApplication.ssi, directoryName, JobID)
 
 def StartServer():
     IP = socket.gethostbyname(socket.gethostname())
