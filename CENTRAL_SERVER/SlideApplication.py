@@ -13,9 +13,9 @@ def OpenSlide(ssi, directoryName, jobId):
     #! ADD TO FRONT OF PATH '\\\\192.168.0.1\\' SERVER IP AND CHANGE ROUTE
     slide_path = f'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\slides\\{directoryName}\\{directoryName}'
     slide_token = ssi.post('slide/open/local/{}', slide_path, readonly=True).json()
-    print('Created slide token:', slide_token)
+    print(f'Created slide token: [{slide_token}]')
     
-    print('Properties:')
+    print('Slide Properties:')
     properties = ssi.get('slide/{}/base_properties', slide_token).json()
     print(json.dumps(properties, indent=4))
     
@@ -32,12 +32,13 @@ def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName):
       
         for i  in range(width):
             for j in range(height):
-            
-                #converting img to npArray to filter out all white imgs
+                
+                #converting img to npArray to filter out all white images
                 image = ssi.get_image('slide/{}/tile', slide_token, encoding='BMP_RAW', x1=i, y1=j, x2=i, y2=j, magnification=1)
-                numpyArray= asarray(image)            
-            
+                numpyArray= asarray(image)
+                
                 if np.mean(numpyArray) == 255:
+                    print(f'{i + 1}/{width} - {j + 1}/{height}')
                     continue
                 else:
                     #!CELL SEED DETECTION, PUT HERE

@@ -10,9 +10,7 @@ def main():
     User = data[1]
     JobID = data[2]
     directoryName = data[3]
-    
-    print(Date, User, JobID, directoryName)
-        
+            
     SlideApplication.OpenSlide(SlideApplication.ssi, directoryName, JobID)
 
 def StartServer():
@@ -37,7 +35,7 @@ def StartServer():
         conn.send('Data has been recived succesfully.'.encode(FORMAT))
         
         msg = conn.recv(SIZE).decode(FORMAT)
-        print(f'[CLIENT] {addr} {msg}')
+        print(f'[CLIENT] {addr} {msg}\n')
         conn.close()
         return data
         

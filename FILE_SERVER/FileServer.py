@@ -20,7 +20,7 @@ def StartServer():
     
     while True:
         conn, addr = server.accept()
-        print(f'[NEW CONNECTION] {addr} connected.')
+        print(f'[NEW CONNECTION] {addr} connected.\n')
         
         folder_name = conn.recv(SIZE).decode(FORMAT)
         

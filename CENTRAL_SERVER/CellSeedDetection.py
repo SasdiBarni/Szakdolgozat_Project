@@ -1,8 +1,9 @@
 import cv2
+import numpy as np
 
 def CellSeedDetectAndCount(tile):
 
-    img = tile
+    img = np.array(tile)
     blur = cv2.medianBlur(img, 5)
     gray = cv2.cvtColor(blur, cv2.COLOR_BGR2GRAY)
 
