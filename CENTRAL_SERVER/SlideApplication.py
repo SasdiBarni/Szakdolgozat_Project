@@ -38,12 +38,11 @@ def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName):
                 numpyArray= asarray(image)
                 
                 if np.mean(numpyArray) == 255:
-                    print(f'---PROCESSING--- {i + 1}/{width} - {j + 1}/{height}', end = '\r')
+                    print(f'---PROCESSING--- {i + 1}/{width} - {j + 1}/{height} ', end = '\r')
 
                     continue
                 else:
-                    blur = cv2.medianBlur(numpyArray, 5)
-                    gray = cv2.cvtColor(blur, cv2.COLOR_BGR2GRAY)
+                    gray = cv2.cvtColor(numpyArray, cv2.COLOR_BGR2GRAY)
 
                     thresh_for_seeds = cv2.threshold(gray, 135, 255, cv2.THRESH_TOZERO_INV)[1]
 
@@ -57,11 +56,14 @@ def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName):
                     for c in cnts_for_seeds:
                         area = cv2.contourArea(c)
                         if area > min_area:
-                            #cv2.drawContours(blur, [c], -1, (36, 255, 12), 1)
+                            cv2.drawContours(numpyArray, [c], -1, (36, 255, 12), 1)
                             black_dots.append(c)
+                            
+                    #cv2.imwrite(f'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\CENTRAL_SERVER\\contours\\{i}_{j}.jpg', numpyArray) 
                     
                     seedNum += len(black_dots)
                     
+        #! ADD TO FRONT OF PATH '\\\\192.168.0.1\\' SERVER IP AND CHANGE ROUTE
         result = open(f'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results\\{directoryName}.txt', 'w')
         
         print('[SERVER] Finished!')
