@@ -1,5 +1,4 @@
 FROM python:3.11.3
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
 
 COPY . /.
 
