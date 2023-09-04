@@ -3,20 +3,13 @@ import json
 import numpy as np
 from numpy import asarray
 import cv2
-import ctypes
+import clr, sys, os
 
-csharp_lib = ctypes.LibraryLoader('C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\CENTRAL_SERVER\\DLL1_ver04.dll')
-
-OpenFunction = csharp_lib.SacOpen
-
-print(type(csharp_lib))
-
-OpenFunction.argtypes = ctypes.c_char_p
-OpenFunction.restype = ctypes.POINTER(ctypes.c_int)
-
-result = OpenFunction('C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\slides\\8808-04Ep\\8808-04Ep.mrxs')
-
-value_at_pointer = result.contents.value
+dll_dir = 'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\CENTRAL_SERVER\\'
+dllname = 'DLL1_ver04'
+path = r'%s%s' % (dll_dir, dllname)
+sys.path.append(os.getcwd())
+clr.AddReference(path)
 
 '''
 base_url='http://localhost:5120/'
