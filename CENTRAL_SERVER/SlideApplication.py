@@ -3,24 +3,6 @@ import json
 import numpy as np
 from numpy import asarray
 import cv2
-import clr, sys, os
-import ctypes
-
-libname = 'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\CENTRAL_SERVER\\DLL_ver04.dll'
-
-lib = ctypes.cdll.LoadLibrary(libname)
-
-pntr = lib.SacOpen('C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\slides\\8808-04Ep\\8808-04Ep.mrxs')
-
-print(pntr)
-
-'''
-dll_dir = 'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\CENTRAL_SERVER\\'
-dllname = 'DLL1_ver04'
-path = r'%s%s' % (dll_dir, dllname)
-sys.path.append(os.getcwd())
-clr.AddReference(path)
-
 
 base_url='http://localhost:5120/'
 ssi = simpleslideinterface.MinimalWrapper(base_url=base_url, raise_for_status=True)
@@ -88,5 +70,3 @@ def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName):
         print('[SERVER] Finished!')
         
         result.write(str(seedNum))
-        
-'''
