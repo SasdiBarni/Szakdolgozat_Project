@@ -5,6 +5,7 @@ import socket
 
 def main():
     
+    print('VERSION 1')
     data = StartServer().split(';')
     
     Date = data[0]
