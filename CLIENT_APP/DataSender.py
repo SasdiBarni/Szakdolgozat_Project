@@ -1,5 +1,6 @@
 import socket               # Import socket module
 import os
+import paramiko
 
 
 def SendToFileServer(directoryName):
@@ -89,3 +90,38 @@ def SendToCentralServer(date, user, jobID, directoryName):
     msg = 'Disconnected.'
     client.send(msg.encode(FORMAT))
     client.close()
+    
+def GetResultsFromServer():    
+    SSH_Client= paramiko.SSHClient()
+    SSH_Client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    SSH_Client.connect( 
+                    hostname = 'hostName', 
+                    port = 4455, 
+                    username = 'userName',
+                    password = 'password', 
+                    look_for_keys = False
+                )
+    
+    sftp_client = SSH_Client.open_sftp()
+    results = sftp_client.listdir('media\\nfs\\results')
+    
+    for result in results :
+        sftp_client.get(f'media\\nfs\\results\\{str(result)}', os.getcwd())
+        
+    sftp_client.close()
+
+def GetFilesFromServer():
+    SSH_Client= paramiko.SSHClient()
+    SSH_Client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    SSH_Client.connect( 
+                    hostname = 'hostName', 
+                    port = 4455, 
+                    username = 'userName',
+                    password = 'password', 
+                    look_for_keys = False
+                )
+    
+    sftp_client = SSH_Client.open_sftp()
+    slides = sftp_client.listdir('media\\nfs\\slides')
+    
+    return slides

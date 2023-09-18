@@ -11,8 +11,7 @@ ssi = simpleslideinterface.MinimalWrapper(base_url=base_url, raise_for_status=Tr
 def OpenSlide(ssi, directoryName, jobId):
     
     
-    #! ADD TO FRONT OF PATH '\\\\192.168.0.1\\' SERVER IP AND CHANGE ROUTE
-    slide_path = f'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\slides\\{directoryName}\\{directoryName}'
+    slide_path = f'media\\nfs\\slides\\{directoryName}\\{directoryName}'
     slide_token = ssi.post('slide/open/local/{}', slide_path, readonly=True).json()
     print(f'Created slide token: [{slide_token}]')
     
@@ -64,8 +63,7 @@ def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName):
                     
                     seedNum += len(black_dots)
                     
-        #! ADD TO FRONT OF PATH '\\\\192.168.0.1\\' SERVER IP AND CHANGE ROUTE
-        result = open(f'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results\\{directoryName}.txt', 'w')
+        result = open(f'media\\nfs\\results\\{directoryName}.txt', 'w')
         
         print('[SERVER] Finished!')
         

@@ -10,8 +10,7 @@ def StartServer():
     ADDR = (IP, PORT)
     SIZE = 1024
     FORMAT = 'utf-8'
-    #! ADD TO FRONT OF PATH '\\\\192.168.0.1\\' SERVER IP AND CHANGE ROUTE
-    SERVER_FOLDER = 'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\slides'
+    SERVER_FOLDER = 'media\\nfs\\slides'
     
     print('[STARTING] Server is starting.')
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

@@ -101,9 +101,11 @@ def ClientWindow(user):
         else:
             messagebox.showinfo(title='Error', message='Please select a file and a job!')    
     
-    #! CHANGE PATH TO SERVER RESULTS PATH \\\\0.0.0.0 ADD IP IN FRONT OF PATH
+    #! TEST
     def ResultsCommand():
-        os.system("explorer C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results")
+        DataSender.GetResultsFromServer()
+        os.system(f"explorer C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\CLIENT_APP\\")
+        
     
     def LogOut():
         window.destroy()
@@ -119,8 +121,8 @@ def ClientWindow(user):
     
     clicked = StringVar(window)
     
-    #! SERVER PATH FOR FILES ALREADY UPLOADED, LATER DELETE DROPDOWN
-    fileList = os.listdir('C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\slides')
+    #! TEST, IF WORKING DELETE
+    fileList = DataSender.GetFilesFromServer()
     
     dropDownLabel = Label(window, text='Choose a file from server: ', font=('Helvetica', 10), pady=20).grid(row=2, column=0)
     dropDown = OptionMenu(window, clicked, *fileList).grid(row=2, column=1)
