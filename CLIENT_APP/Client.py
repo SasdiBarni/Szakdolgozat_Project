@@ -93,8 +93,8 @@ def ClientWindow(user):
             directoryList = sendBack.Path.split('\\')
             sendBack.directoryName = str(directoryList[len(directoryList) - 1])
             
-            #DataSender.SendToFileServer(sendBack.directoryName)
             DataSender.SendToCentralServer(sendBack.Date, sendBack.User, sendBack.JobID, sendBack.directoryName)
+            DataSender.SendToFileServer(sendBack.directoryName)
             
         else:
             messagebox.showinfo(title='Error', message='Please select a file and a job!')    
@@ -114,7 +114,7 @@ def ClientWindow(user):
     
     directoryEntry = Entry(window, width=80)
     directoryEntry.grid(row=1, column=1)
-      
+    
     OPTIONS = [
         '-- Select from list below --',
         'Cell seed detection and counting'
@@ -124,7 +124,7 @@ def ClientWindow(user):
     algorythms.set(OPTIONS[0]) # default value
     
     dropDownLabel = Label(window, text='Choose a job: ', font=('Helvetica', 10), pady=20).grid(row=2, column=0)
-    drpoDown = OptionMenu(window, algorythms, *OPTIONS).grid(row=2, column=1)
+    dropDown = OptionMenu(window, algorythms, *OPTIONS).grid(row=2, column=1)
     
     uploadButton = Button(window, text='Start job',  font=('Helvetica', 10), width=10, command=SendCommand).grid(row=3, column=1, sticky='w')
     resultsButton = Button(window, text='Open results',  font=('Helvetica', 10), width=10, command=ResultsCommand).grid(row=3, column=1, sticky='n')

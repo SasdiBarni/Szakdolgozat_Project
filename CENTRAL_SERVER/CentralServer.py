@@ -1,4 +1,5 @@
 import SlideApplication
+import FileServer
 import socket
 
 
@@ -10,6 +11,8 @@ def main():
     User = data[1]
     JobID = data[2]
     directoryName = data[3]
+    
+    FileServer.main()
             
     SlideApplication.OpenSlide(SlideApplication.ssi, directoryName, JobID)
 

@@ -10,7 +10,8 @@ def StartServer():
     ADDR = (IP, PORT)
     SIZE = 1024
     FORMAT = 'utf-8'
-    SERVER_FOLDER = 'slides'
+    #! ADD TO FRONT OF PATH '\\\\192.168.0.1\\' SERVER IP AND CHANGE ROUTE
+    SERVER_FOLDER = 'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\slides'
     
     print('[STARTING] Server is starting.')
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -35,6 +36,8 @@ def StartServer():
             conn.send(f'Folder ({folder_name}) created.'.encode(FORMAT))
         else:
             conn.send(f'Folder ({folder_name}) already exists.'.encode(FORMAT))
+            conn.close()
+            break
 
         file_path = os.path.join(SERVER_FOLDER, folder_name, mrxs_name)
         file = open(file_path, 'wb')
@@ -66,6 +69,11 @@ def StartServer():
             
             file_name = conn.recv(SIZE).decode(FORMAT)
             print(f'[CLIENT] Recived the filename: {file_name}.')
+            
+            if file_name == 'File transfer complete.':
+                conn.close()
+                break
+            
             conn.send('Filename recived.'.encode(FORMAT))
             
             file_size = conn.recv(SIZE).decode(FORMAT)
