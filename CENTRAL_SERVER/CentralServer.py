@@ -13,13 +13,13 @@ def main():
     JobID = data[2]
     directoryName = data[3]
     
-    FileServer.main()
+    #FileServer.main()
             
     SlideApplication.OpenSlide(SlideApplication.ssi, directoryName, JobID)
 
 def StartServer():
     IP = socket.gethostbyname(socket.gethostname())
-    PORT = 4456
+    PORT = 4455
     ADDR = (IP, PORT)
     SIZE = 1024
     FORMAT = 'utf-8'

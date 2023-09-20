@@ -96,7 +96,7 @@ def ClientWindow(user):
             sendBack.directoryName = str(directoryList[len(directoryList) - 1])
             
             DataSender.SendToCentralServer(sendBack.Date, sendBack.User, sendBack.JobID, sendBack.directoryName)
-            DataSender.SendToFileServer(sendBack.directoryName)
+            #DataSender.SendToFileServer(sendBack.directoryName)
             
         else:
             messagebox.showinfo(title='Error', message='Please select a file and a job!')    
