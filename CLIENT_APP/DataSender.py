@@ -1,6 +1,6 @@
 import socket               # Import socket module
 import os
-import paramiko
+#import paramiko
 
 
 def SendToFileServer(directoryName):
@@ -10,7 +10,6 @@ def SendToFileServer(directoryName):
     PORT = 4455
     ADDR = (IP, PORT)
     
-    #connect to FileServer
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect(ADDR)
     
@@ -90,7 +89,8 @@ def SendToCentralServer(date, user, jobID, directoryName):
     msg = 'Disconnected.'
     client.send(msg.encode(FORMAT))
     client.close()
-    
+
+'''
 def GetResultsFromServer():    
     SSH_Client= paramiko.SSHClient()
     SSH_Client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -125,3 +125,5 @@ def GetFilesFromServer():
     slides = sftp_client.listdir('media\\nfs\\slides')
     
     return slides
+    
+'''

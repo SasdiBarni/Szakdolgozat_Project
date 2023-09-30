@@ -69,8 +69,8 @@ def ClientWindow(user):
     screen_width = window.winfo_screenwidth()
     screen_height = window.winfo_screenheight()
 
-    winWidth = 750
-    winHeight = 300
+    winWidth = 700
+    winHeight = 250
 
     x = (screen_width/2) - (winWidth/2)
     y = (screen_height/2) - (winHeight/2)
@@ -84,8 +84,7 @@ def ClientWindow(user):
     
     def SendCommand():
         
-        #! CHANGE BACK LATER TO ONLY FILE SENDING OPTION
-        if (directoryEntry.get() != '' or clicked.get() != '') and algorythms.get() != '-- Select from list below --':
+        if directoryEntry.get() != '' and algorythms.get() != '-- Select from list below --':
                         
             sendBack.User = user #name of the logged in user
             sendBack.Path = directoryEntry.get() #the path of thr directory locally that needs to be uploaded to the file server
@@ -101,10 +100,9 @@ def ClientWindow(user):
         else:
             messagebox.showinfo(title='Error', message='Please select a file and a job!')    
     
-    #! TEST
+    #! NEED TO DEFINE LATER
     def ResultsCommand():
-        DataSender.GetResultsFromServer()
-        os.system(f"explorer C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\CLIENT_APP\\")
+        return
         
     
     def LogOut():
@@ -119,14 +117,6 @@ def ClientWindow(user):
     directoryEntry = Entry(window, width=80)
     directoryEntry.grid(row=1, column=1)
     
-    clicked = StringVar(window)
-    
-    #! TEST, IF WORKING DELETE
-    fileList = DataSender.GetFilesFromServer()
-    
-    dropDownLabel = Label(window, text='Choose a file from server: ', font=('Helvetica', 10), pady=20).grid(row=2, column=0)
-    dropDown = OptionMenu(window, clicked, *fileList).grid(row=2, column=1)
-    
     OPTIONS = [
         '-- Select from list below --',
         'Cell seed detection and counting'
@@ -135,15 +125,15 @@ def ClientWindow(user):
     algorythms = StringVar(window)
     algorythms.set(OPTIONS[0]) # default value
     
-    dropDownLabel = Label(window, text='Choose a job: ', font=('Helvetica', 10), pady=20).grid(row=3, column=0)
-    dropDown = OptionMenu(window, algorythms, *OPTIONS).grid(row=3, column=1)
+    dropDownLabel = Label(window, text='Choose a job: ', font=('Helvetica', 10), pady=20).grid(row=2, column=0)
+    dropDown = OptionMenu(window, algorythms, *OPTIONS).grid(row=2, column=1)
     
-    uploadButton = Button(window, text='Start job',  font=('Helvetica', 10), width=10, command=SendCommand).grid(row=4, column=1, sticky='w')
-    resultsButton = Button(window, text='Open results',  font=('Helvetica', 10), width=10, command=ResultsCommand).grid(row=4, column=1, sticky='n')
+    uploadButton = Button(window, text='Start job',  font=('Helvetica', 10), width=10, command=SendCommand).grid(row=3, column=1, sticky='w')
+    resultsButton = Button(window, text='Open results',  font=('Helvetica', 10), width=10, command=ResultsCommand).grid(row=3, column=1, sticky='n')
 
-    quitButton = Button(window, text='Exit',  font=('Helvetica', 10), width=10, command=window.destroy).grid(row=4, column=2)
+    quitButton = Button(window, text='Exit',  font=('Helvetica', 10), width=10, command=window.destroy).grid(row=3, column=2)
 
-    logoutButton = Button(window, text='Logout',  font=('Helvetica', 10), width=10, command=LogOut).grid(row=4, column=1, sticky='e')
+    logoutButton = Button(window, text='Logout',  font=('Helvetica', 10), width=10, command=LogOut).grid(row=3, column=1, sticky='e')
 
     
     window.mainloop()
