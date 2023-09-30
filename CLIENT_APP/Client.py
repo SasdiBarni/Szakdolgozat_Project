@@ -84,7 +84,7 @@ def ClientWindow(user):
     
     def SendCommand():
         
-        if directoryEntry.get() != '' and algorythms.get() != '-- Select from list below --':
+        if directoryEntry.get() != '' or algorythms.get() != '-- Select from list below --':
                         
             sendBack.User = user #name of the logged in user
             sendBack.Path = directoryEntry.get() #the path of thr directory locally that needs to be uploaded to the file server
