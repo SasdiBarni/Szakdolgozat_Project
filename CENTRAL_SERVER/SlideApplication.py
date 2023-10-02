@@ -3,15 +3,16 @@ import json
 import numpy as np
 from numpy import asarray
 import cv2
+import os
 
 base_url='http://localhost:5120/'
 ssi = simpleslideinterface.MinimalWrapper(base_url=base_url, raise_for_status=True)
 
 
-def OpenSlide(ssi, directoryName, jobId):
+def OpenSlide(ssi, directoryName, jobId, date, user):
     
-    
-    slide_path = f'media\\nfs\\slides\\{directoryName}\\{directoryName}'
+    slide_path = f'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\slides\\{directoryName}\\{directoryName}'
+    #slide_path = f'media\\nfs\\slides\\{directoryName}\\{directoryName}'
     slide_token = ssi.post('slide/open/local/{}', slide_path, readonly=True).json()
     print(f'Created slide token: [{slide_token}]')
     
@@ -19,10 +20,10 @@ def OpenSlide(ssi, directoryName, jobId):
     properties = ssi.get('slide/{}/base_properties', slide_token).json()
     print(json.dumps(properties, indent=4))
     
-    GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName)
+    GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName, date, user)
     
 
-def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName):
+def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName, date, user):
     
     if jobId == 'Cell seed detection and counting':
         
@@ -62,9 +63,17 @@ def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName):
                     #cv2.imwrite(f'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\CENTRAL_SERVER\\contours\\{i}_{j}.jpg', numpyArray) 
                     
                     seedNum += len(black_dots)
-                    
-        result = open(f'media\\nfs\\results\\{directoryName}.txt', 'w')
         
-        print('[SERVER] Finished!')
+        path = 'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results\\results.txt'
         
-        result.write(str(seedNum))
+        check_file = os.path.exists(path)
+        
+        if not check_file:
+            result = open('C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results\\results.txt', 'w')
+            result.write(f'{date} - {user} - {directoryName} - {jobId} :: {str(seedNum)}\n')
+            print('[SERVER] Finished!')
+        else:
+            result.write(f'{date} - {user} - {directoryName} - {jobId} :: {str(seedNum)}\n')
+            print('[SERVER] Finished!')
+        
+        #result = open(f'media\\nfs\\results\\{directoryName}.txt', 'w')

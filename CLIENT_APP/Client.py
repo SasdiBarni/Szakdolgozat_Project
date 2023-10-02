@@ -18,6 +18,7 @@ sendBack = DatasForServer(None, None, None, None, None)
 def LoginWindow():
     window = Tk()
 
+    window.configure(bg='#39AEA9')
     window.title('Login')
     window.resizable(False, False)
 
@@ -41,17 +42,17 @@ def LoginWindow():
             messagebox.showinfo(title='Error', message='Wrong username or password!')
 
 
-    titleLabel = Label(window, text='You have to login first!', font=('Helvetica', 12)).grid(row=0, column=1)
+    titleLabel = Label(window, text='You have to login first!', font=('Helvetica', 12), background='#39AEA9').grid(row=0, column=1)
 
-    userLabel = Label(window, text='Username:', font=('Helvetica', 10)).grid(row=1, column=0)
-    userEntry = Entry(window, width= 30)
+    userLabel = Label(window, text='Username:', font=('Helvetica', 10), background='#39AEA9').grid(row=1, column=0)
+    userEntry = Entry(window, width= 30, background='#E5EFC1')
     userEntry.grid(row=1, column=1)
 
-    pwLabel = Label(window, text='Password:', font=('Helvetica', 10)).grid(row=2, column=0)
-    pwEntry = Entry(window, width= 30, show='*')
+    pwLabel = Label(window, text='Password:', font=('Helvetica', 10), background='#39AEA9').grid(row=2, column=0)
+    pwEntry = Entry(window, width= 30, show='*', background='#E5EFC1')
     pwEntry.grid(row=2, column=1)
 
-    loginButton = Button(window, text='Login', font=('Helvetica', 10), command= login).grid(row=3, column=1)
+    loginButton = Button(window, text='Login', font=('Helvetica', 10), command= login, background='#E5EFC1').grid(row=3, column=1)
 
     window.mainloop()   
 
@@ -63,6 +64,7 @@ def LoginWindow():
 def ClientWindow(user):
     window = Tk()
 
+    window.configure(bg='#39AEA9')
     window.title('Client App')
     window.resizable(False, False)
 
@@ -95,7 +97,7 @@ def ClientWindow(user):
             sendBack.directoryName = str(directoryList[len(directoryList) - 1])
             
             DataSender.SendToCentralServer(sendBack.Date, sendBack.User, sendBack.JobID, sendBack.directoryName)
-            #DataSender.SendToFileServer(sendBack.directoryName)
+            DataSender.SendToFileServer(sendBack.directoryName)
             
         else:
             messagebox.showinfo(title='Error', message='Please select a file and a job!')    
@@ -109,12 +111,12 @@ def ClientWindow(user):
         window.destroy()
         LoginWindow()
             
-    titleLabel = Label(window, text='Welcome ' + user + '!', font=('Helvetica', 26)).grid(row=0, column=1)
+    titleLabel = Label(window, text='Welcome ' + user + '!', font=('Helvetica', 26), background='#39AEA9').grid(row=0, column=1)
     
-    directoryLabel = Label(window, text='Choose a file: ', font=('Helvetica', 10), pady=20).grid(row=1, column=0)
-    directoryButton = Button(window, text='Open',  font=('Helvetica', 10), width=10, command=FileWindow).grid(row=1, column=2)
+    directoryLabel = Label(window, text='Choose a file: ', font=('Helvetica', 10), background = '#39AEA9', pady=20).grid(row=1, column=0)
+    directoryButton = Button(window, text='Open',  font=('Helvetica', 10), background = '#E5EFC1', width=10, command=FileWindow).grid(row=1, column=2)
     
-    directoryEntry = Entry(window, width=80)
+    directoryEntry = Entry(window, width=80, background='#E5EFC1')
     directoryEntry.grid(row=1, column=1)
     
     OPTIONS = [
@@ -125,15 +127,15 @@ def ClientWindow(user):
     algorythms = StringVar(window)
     algorythms.set(OPTIONS[0]) # default value
     
-    dropDownLabel = Label(window, text='Choose a job: ', font=('Helvetica', 10), pady=20).grid(row=2, column=0)
+    dropDownLabel = Label(window, text='Choose a job: ', font=('Helvetica', 10), background='#39AEA9', pady=20).grid(row=2, column=0)
     dropDown = OptionMenu(window, algorythms, *OPTIONS).grid(row=2, column=1)
     
-    uploadButton = Button(window, text='Start job',  font=('Helvetica', 10), width=10, command=SendCommand).grid(row=3, column=1, sticky='w')
-    resultsButton = Button(window, text='Open results',  font=('Helvetica', 10), width=10, command=ResultsCommand).grid(row=3, column=1, sticky='n')
+    uploadButton = Button(window, text='Start job',  font=('Helvetica', 10), background='#E5EFC1', width=10, command=SendCommand).grid(row=3, column=1, sticky='w')
+    resultsButton = Button(window, text='Open results',  font=('Helvetica', 10), background='#E5EFC1', width=10, command=ResultsCommand).grid(row=3, column=1, sticky='n')
 
-    quitButton = Button(window, text='Exit',  font=('Helvetica', 10), width=10, command=window.destroy).grid(row=3, column=2)
+    quitButton = Button(window, text='Exit',  font=('Helvetica', 10), width=10, background='#E5EFC1', command=window.destroy).grid(row=3, column=2)
 
-    logoutButton = Button(window, text='Logout',  font=('Helvetica', 10), width=10, command=LogOut).grid(row=3, column=1, sticky='e')
+    logoutButton = Button(window, text='Logout',  font=('Helvetica', 10), width=10, background='#E5EFC1', command=LogOut).grid(row=3, column=1, sticky='e')
 
     
     window.mainloop()

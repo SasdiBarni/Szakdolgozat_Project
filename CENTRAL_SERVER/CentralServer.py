@@ -13,9 +13,9 @@ def main():
     JobID = data[2]
     directoryName = data[3]
     
-    #FileServer.main()
+    FileServer.main()
             
-    SlideApplication.OpenSlide(SlideApplication.ssi, directoryName, JobID)
+    SlideApplication.OpenSlide(SlideApplication.ssi, directoryName, JobID, Date, User)
 
 def StartServer():
     IP = socket.gethostbyname(socket.gethostname())

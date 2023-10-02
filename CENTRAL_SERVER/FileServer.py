@@ -10,7 +10,8 @@ def StartServer():
     ADDR = (IP, PORT)
     SIZE = 1024
     FORMAT = 'utf-8'
-    SERVER_FOLDER = 'media\\nfs\\slides'
+    SERVER_FOLDER = 'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\slides'
+    #SERVER_FOLDER = 'media\\nfs\\slides'
     
     print('[STARTING] Server is starting.')
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -29,14 +30,8 @@ def StartServer():
         #slides/folder_name/folder_name
         folder_path = os.path.join(SERVER_FOLDER, folder_name, folder_name)
         
-        #creting the folders if not existing
-        if not os.path.exists(folder_path):
-            os.makedirs(folder_path)
-            conn.send(f'Folder ({folder_name}) created.'.encode(FORMAT))
-        else:
-            conn.send(f'Folder ({folder_name}) already exists.'.encode(FORMAT))
-            conn.close()
-            break
+        os.makedirs(folder_path)
+        conn.send(f'Folder ({folder_name}) created.'.encode(FORMAT))
 
         file_path = os.path.join(SERVER_FOLDER, folder_name, mrxs_name)
         file = open(file_path, 'wb')
@@ -69,9 +64,9 @@ def StartServer():
             file_name = conn.recv(SIZE).decode(FORMAT)
             print(f'[CLIENT] Recived the filename: {file_name}.')
             
-            if file_name == 'File transfer complete.':
+            if file_name == 'File transfer complete':
                 conn.close()
-                break
+                return
             
             conn.send('Filename recived.'.encode(FORMAT))
             

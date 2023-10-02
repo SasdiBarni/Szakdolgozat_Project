@@ -69,13 +69,14 @@ def SendToFileServer(directoryName):
     msg = f'File transfer complete'
     client.send(msg.encode(FORMAT))
     client.close()
+    return
     
     
 def SendToCentralServer(date, user, jobID, directoryName):
     SIZE = 1024
     FORMAT = 'utf-8'
     IP = socket.gethostbyname(socket.gethostname())
-    PORT = 4456
+    PORT = 4455
     ADDR = (IP, PORT)
     
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
