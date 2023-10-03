@@ -5,11 +5,10 @@ from numpy import asarray
 import cv2
 import os
 
-base_url='http://localhost:5120/'
-ssi = simpleslideinterface.MinimalWrapper(base_url=base_url, raise_for_status=True)
-
-
-def OpenSlide(ssi, directoryName, jobId, date, user):
+def OpenSlide(directoryName, jobId, date, user):
+    
+    base_url='http://localhost:5120/'
+    ssi = simpleslideinterface.MinimalWrapper(base_url=base_url, raise_for_status=True)
     
     slide_path = f'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\slides\\{directoryName}\\{directoryName}'
     #slide_path = f'media\\nfs\\slides\\{directoryName}\\{directoryName}'
@@ -19,6 +18,11 @@ def OpenSlide(ssi, directoryName, jobId, date, user):
     print('Slide Properties:')
     properties = ssi.get('slide/{}/base_properties', slide_token).json()
     print(json.dumps(properties, indent=4))
+    
+    if properties != '':
+        return True
+    else:
+        return False
     
     GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName, date, user)
     
