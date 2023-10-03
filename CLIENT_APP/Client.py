@@ -1,5 +1,6 @@
 import os
 import DataSender
+import UserAuthenticate
 from tkinter import *
 from tkinter import messagebox
 from tkinter import filedialog
@@ -31,10 +32,8 @@ def LoginWindow():
     window.geometry('%dx%d+%d+%d' % (300, 100, x, y))
 
     def login():
-        userName = 'admin'
-        pw = 'admin'
-    
-        if userEntry.get() == userName and pwEntry.get() == pw:
+        
+        if UserAuthenticate.LoginAuthenticate(userEntry.get(), pwEntry.get()):
             user = userEntry.get()
             window.destroy()
             ClientWindow(user)
