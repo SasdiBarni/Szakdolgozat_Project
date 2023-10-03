@@ -1,8 +1,11 @@
 import json
+import os
 
 def LoginAuthenticate(username, pw):
     
-    f = open('users.json')
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'users.json')
+    
+    f = open(path)
 
     data = json.load(f)
     
@@ -10,4 +13,4 @@ def LoginAuthenticate(username, pw):
         if username == i['username'] and pw == i['pw']:
             return True
         else:
-            continue
+            return False
