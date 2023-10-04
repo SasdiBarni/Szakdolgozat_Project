@@ -19,10 +19,8 @@ def OpenSlide(directoryName, jobId, date, user):
     properties = ssi.get('slide/{}/base_properties', slide_token).json()
     print(json.dumps(properties, indent=4))
     
-    if properties != '':
-        return True
-    else:
-        return False
+    #used only for the unit tests
+    #return properties
     
     GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName, date, user)
     
