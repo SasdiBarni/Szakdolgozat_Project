@@ -35,7 +35,7 @@ def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName, date, 
         width = int(int(properties['Width']) / 256 / 2)
         height = int(int(properties['Height']) / 256 / 2)
       
-        for i  in range(width):
+        for i in range(width):
             for j in range(height):
                 
                 image = ssi.get_image('slide/{}/tile', slide_token, encoding='BMP_RAW', x1=i, y1=j, x2=i, y2=j, magnification=1)
@@ -67,12 +67,12 @@ def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName, date, 
                     #seedNum += len(black_dots)
                     seedNums.append(len(black_dots))
         
-        path = f'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results\\{date}_{user}_{directoryName}_{jobId}_results.txt'
+        path = f'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results\\{str(user)}_{str(directoryName)}_{str(jobId)}_results.txt'
         
         check_file = os.path.exists(path)
         
         if not check_file:
-            result = open(f'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results\\{date}_{user}_{directoryName}_{jobId}_results.txt', 'w')
+            result = open('C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results\\' + str(user) + '_' + str(directoryName) + '_' + str(jobId) + '_results.txt', 'w')
             for num in seedNums:
                 result.write(f'{num}\n')
             #result.write(f'{date} - {user} - {directoryName} - {jobId} :: {str(seedNum)}\n')

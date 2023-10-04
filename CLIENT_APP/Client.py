@@ -95,7 +95,7 @@ def ClientWindow(user):
             directoryList = sendBack.Path.split('\\')
             sendBack.directoryName = str(directoryList[len(directoryList) - 1])
             
-            #DataSender.SendToCentralServer(sendBack.Date, sendBack.User, sendBack.JobID, sendBack.directoryName)
+            DataSender.SendToCentralServer(sendBack.Date, sendBack.User, sendBack.JobID, sendBack.directoryName)
             DataSender.SendToFileServer(sendBack.directoryName)
             
         else:

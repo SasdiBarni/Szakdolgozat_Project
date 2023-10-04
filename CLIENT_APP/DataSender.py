@@ -1,8 +1,6 @@
 import socket               # Import socket module
 import os
 #import paramiko
-import time
-
 
 def SendToFileServer(directoryName):
     SIZE = 1024
@@ -13,8 +11,6 @@ def SendToFileServer(directoryName):
     
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect(ADDR)
-    
-    start_time = time.time()
     
     #send directoryName
     msg = f'{directoryName}'
@@ -71,12 +67,7 @@ def SendToFileServer(directoryName):
         
     msg = f'File transfer complete'
     client.send(msg.encode(FORMAT))
-    client.close()
-    
-    end_time = time.time()    
-    execution_time = start_time - end_time
-    print('Execution time:' + str(execution_time))
-    
+    client.close()    
     return
     
     
@@ -90,7 +81,6 @@ def SendToCentralServer(date, user, jobID, directoryName):
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect(ADDR)
     
-    start_time = time.time()
     
     toSend = str(date) + ';' + str(user) + ';' + str(jobID) + ';' + str(directoryName)    
     client.sendall(toSend.encode(FORMAT))
@@ -100,45 +90,3 @@ def SendToCentralServer(date, user, jobID, directoryName):
     msg = 'Disconnected.'
     client.send(msg.encode(FORMAT))
     client.close()
-    
-    end_time = time.time()    
-    execution_time = start_time - end_time
-    print('Execution time:' + str(execution_time))
-
-'''
-def GetResultsFromServer():    
-    SSH_Client= paramiko.SSHClient()
-    SSH_Client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    SSH_Client.connect( 
-                    hostname = 'hostName', 
-                    port = 4455, 
-                    username = 'userName',
-                    password = 'password', 
-                    look_for_keys = False
-                )
-    
-    sftp_client = SSH_Client.open_sftp()
-    results = sftp_client.listdir('media\\nfs\\results')
-    
-    for result in results :
-        sftp_client.get(f'media\\nfs\\results\\{str(result)}', os.getcwd())
-        
-    sftp_client.close()
-
-def GetFilesFromServer():
-    SSH_Client= paramiko.SSHClient()
-    SSH_Client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    SSH_Client.connect( 
-                    hostname = 'hostName', 
-                    port = 4455, 
-                    username = 'userName',
-                    password = 'password', 
-                    look_for_keys = False
-                )
-    
-    sftp_client = SSH_Client.open_sftp()
-    slides = sftp_client.listdir('media\\nfs\\slides')
-    
-    return slides
-    
-'''
