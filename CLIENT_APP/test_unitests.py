@@ -57,8 +57,7 @@ class Test_FileSendingAndOpeningTest(unittest.TestCase):
         path2 = 'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\slides\\8808-04Ep'
         files2 = sorted(os.listdir(path2))
         
-        self.assertEqual(files1, files2)
-        
+        self.assertEqual(files1, files2) 
         
 if __name__ == '__name__':
     unittest.main()

@@ -1,6 +1,7 @@
 import socket               # Import socket module
 import os
 #import paramiko
+import time
 
 
 def SendToFileServer(directoryName):
@@ -12,6 +13,8 @@ def SendToFileServer(directoryName):
     
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect(ADDR)
+    
+    start_time = time.time()
     
     #send directoryName
     msg = f'{directoryName}'
@@ -69,6 +72,11 @@ def SendToFileServer(directoryName):
     msg = f'File transfer complete'
     client.send(msg.encode(FORMAT))
     client.close()
+    
+    end_time = time.time()    
+    execution_time = start_time - end_time
+    print('Execution time:' + str(execution_time))
+    
     return
     
     
@@ -82,6 +90,8 @@ def SendToCentralServer(date, user, jobID, directoryName):
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect(ADDR)
     
+    start_time = time.time()
+    
     toSend = str(date) + ';' + str(user) + ';' + str(jobID) + ';' + str(directoryName)    
     client.sendall(toSend.encode(FORMAT))
     msg = client.recv(SIZE).decode(FORMAT)
@@ -90,6 +100,10 @@ def SendToCentralServer(date, user, jobID, directoryName):
     msg = 'Disconnected.'
     client.send(msg.encode(FORMAT))
     client.close()
+    
+    end_time = time.time()    
+    execution_time = start_time - end_time
+    print('Execution time:' + str(execution_time))
 
 '''
 def GetResultsFromServer():    

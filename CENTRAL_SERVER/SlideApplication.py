@@ -29,7 +29,8 @@ def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName, date, 
     
     if jobId == 'Cell seed detection and counting':
         
-        seedNum = 0
+        #seedNum = 0
+        seedNums = []
         
         width = int(int(properties['Width']) / 256 / 2)
         height = int(int(properties['Height']) / 256 / 2)
@@ -42,7 +43,6 @@ def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName, date, 
                 
                 if np.mean(numpyArray) == 255:
                     print(f'---PROCESSING--- {i + 1}/{width} - {j + 1}/{height} ', end = '\r')
-
                     continue
                 else:
                     gray = cv2.cvtColor(numpyArray, cv2.COLOR_BGR2GRAY)
@@ -64,18 +64,23 @@ def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName, date, 
                             
                     #cv2.imwrite(f'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\CENTRAL_SERVER\\contours\\{i}_{j}.jpg', numpyArray) 
                     
-                    seedNum += len(black_dots)
+                    #seedNum += len(black_dots)
+                    seedNums.append(len(black_dots))
         
-        path = 'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results\\results.txt'
+        path = f'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results\\{date}_{user}_{directoryName}_{jobId}_results.txt'
         
         check_file = os.path.exists(path)
         
         if not check_file:
-            result = open('C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results\\results.txt', 'w')
-            result.write(f'{date} - {user} - {directoryName} - {jobId} :: {str(seedNum)}\n')
+            result = open(f'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results\\{date}_{user}_{directoryName}_{jobId}_results.txt', 'w')
+            for num in seedNums:
+                result.write(f'{num}\n')
+            #result.write(f'{date} - {user} - {directoryName} - {jobId} :: {str(seedNum)}\n')
             print('[SERVER] Finished!')
         else:
-            result.write(f'{date} - {user} - {directoryName} - {jobId} :: {str(seedNum)}\n')
+            for num in seedNums:
+                result.write(f'{num}\n')
+            #result.write(f'{date} - {user} - {directoryName} - {jobId} :: {str(seedNum)}\n')
             print('[SERVER] Finished!')
         
         #result = open(f'media\\nfs\\results\\{directoryName}.txt', 'w')

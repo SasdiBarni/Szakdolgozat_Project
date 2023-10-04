@@ -5,6 +5,7 @@ import socket
 
 def main():
     
+    '''
     print('VERSION 1')
     data = StartServer().split(';')
     
@@ -12,10 +13,10 @@ def main():
     User = data[1]
     JobID = data[2]
     directoryName = data[3]
-    
+    '''
     FileServer.main()
             
-    SlideApplication.OpenSlide(directoryName, JobID, Date, User)
+    #SlideApplication.OpenSlide(directoryName, JobID, Date, User)
 
 def StartServer():
     IP = socket.gethostbyname(socket.gethostname())
