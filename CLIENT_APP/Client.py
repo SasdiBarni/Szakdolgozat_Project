@@ -103,7 +103,8 @@ def ClientWindow(user):
     
     #! NEED TO DEFINE LATER
     def ResultsCommand():
-        return
+        window.destroy()
+        ResultWindow()
         
     
     def LogOut():
@@ -138,5 +139,46 @@ def ClientWindow(user):
 
     
     window.mainloop()
+
+def ResultWindow():
+    window = Tk()
+
+    window.configure(bg='#39AEA9')
+    window.title('Results')
+    window.resizable(False, False)
+
+    screen_width = window.winfo_screenwidth()
+    screen_height = window.winfo_screenheight()
+
+    winWidth = 700
+    winHeight = 250
+
+    x = (screen_width/2) - (winWidth/2)
+    y = (screen_height/2) - (winHeight/2)
+
+    window.geometry('%dx%d+%d+%d' % (winWidth, winHeight, x, y))
+    
+    listbox = Listbox(window).grid(row=1, column=0)
+  
+    scrollbar = Scrollbar(window).grid(row=4)
+  
+    for values in range(100):
+        listbox.insert(END, values)
+      
+    listbox.config(yscrollcommand = scrollbar.set)
+  
+    scrollbar.config(command = listbox.yview)
+    
+    dateLabel = Label(window, text='Date', font=('Helvetica', 26), background='#39AEA9')
+    userLabel = Label(window, text='Username', font=('Helvetica', 26), background='#39AEA9')
+    directoryLabel = Label(window, text='Filename', font=('Helvetica', 26), background='#39AEA9')
+    jobIdLabel = Label(window, text='Job name', font=('Helvetica', 26), background='#39AEA9')
+    resultLabel = Label(window, text='Result', font=('Helvetica', 26), background='#39AEA9')
+    
+    backButton = Button(window, text='Go back',  font=('Helvetica', 10), width=10, background='#E5EFC1', command=GoBack).grid(row=2, column=2)
+    
+    def GoBack():
+        window.destroy
+        ClientWindow()
     
 LoginWindow()

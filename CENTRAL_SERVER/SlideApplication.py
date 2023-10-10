@@ -3,7 +3,7 @@ import json
 import numpy as np
 from numpy import asarray
 import cv2
-import os, time
+import os
 
 def OpenSlide(directoryName, jobId, date, user):
     
@@ -29,9 +29,7 @@ def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName, date, 
     
     if jobId == 'Cell seed detection and counting':
         
-        start_time = time.time()
-        
-        #seedNum = 0
+        seedNum = 0
         seedNums = []
         
         width = int(int(properties['Width']) / 256 / 2)
@@ -62,6 +60,7 @@ def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName, date, 
                         cv2.drawContours(numpyArray, [c], -1, (36, 255, 12), 1)
                         black_dots.append(c)
                 
+                seedNum += len(black_dots)
                 seedNums.append(len(black_dots))
                 '''
                 if np.mean(numpyArray) == 255:
@@ -91,18 +90,12 @@ def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName, date, 
                     seedNums.append(len(black_dots))
                 '''
         
-        end_time = time.time()
+        result = open('C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results\\results.txt', 'w')
         
-        process_time = start_time - end_time
-        
-        print('Process Time: ' + str(process_time))
-        
-        result = open('C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results\\' + str(user) + '_' + str(directoryName) + '_' + str(jobId) + '_results.txt', 'w')
-        
-        for num in seedNums:
-            result.write(f'{num}\n')
+        #for num in seedNums:
+        #    result.write(f'{num}\n')
             
-        #result.write(f'{date} - {user} - {directoryName} - {jobId} :: {str(seedNum)}\n')
+        result.write(f'{date} - {user} - {directoryName} - {jobId} :: {str(seedNum)}\n')
         print('[SERVER] Finished!')
         
         #result = open(f'media\\nfs\\results\\{directoryName}.txt', 'w')
