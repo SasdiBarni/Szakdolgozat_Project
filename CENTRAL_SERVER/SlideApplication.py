@@ -96,6 +96,6 @@ def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName, date, 
         #    result.write(f'{num}\n')
             
         result.write(f'{date} - {user} - {directoryName} - {jobId} :: {str(seedNum)}\n')
-        print('[SERVER] Finished!')
+        print('\n[SERVER] Finished!')
         
         #result = open(f'media\\nfs\\results\\{directoryName}.txt', 'w')

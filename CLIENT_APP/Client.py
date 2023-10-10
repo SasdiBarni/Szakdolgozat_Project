@@ -104,7 +104,7 @@ def ClientWindow(user):
     #! NEED TO DEFINE LATER
     def ResultsCommand():
         window.destroy()
-        ResultWindow()
+        ResultWindow(user)
         
     
     def LogOut():
@@ -140,7 +140,7 @@ def ClientWindow(user):
     
     window.mainloop()
 
-def ResultWindow():
+def ResultWindow(user):
     window = Tk()
 
     window.configure(bg='#39AEA9')
@@ -158,27 +158,26 @@ def ResultWindow():
 
     window.geometry('%dx%d+%d+%d' % (winWidth, winHeight, x, y))
     
-    listbox = Listbox(window).grid(row=1, column=0)
-  
-    scrollbar = Scrollbar(window).grid(row=4)
-  
-    for values in range(100):
-        listbox.insert(END, values)
-      
-    listbox.config(yscrollcommand = scrollbar.set)
-  
-    scrollbar.config(command = listbox.yview)
+    def GoBackCommand():
+        window.destroy()
+        ClientWindow(user)
     
-    dateLabel = Label(window, text='Date', font=('Helvetica', 26), background='#39AEA9')
-    userLabel = Label(window, text='Username', font=('Helvetica', 26), background='#39AEA9')
-    directoryLabel = Label(window, text='Filename', font=('Helvetica', 26), background='#39AEA9')
-    jobIdLabel = Label(window, text='Job name', font=('Helvetica', 26), background='#39AEA9')
-    resultLabel = Label(window, text='Result', font=('Helvetica', 26), background='#39AEA9')
+    scrollbar = Scrollbar(window)
+    scrollbar.pack(side=RIGHT, fill=Y)
+    listbox = Listbox(window)
+    listbox.pack(side=TOP, fill=X)
     
-    backButton = Button(window, text='Go back',  font=('Helvetica', 10), width=10, background='#E5EFC1', command=GoBack).grid(row=2, column=2)
+    file = open('C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results\\results.txt', 'r')
     
-    def GoBack():
-        window.destroy
-        ClientWindow()
+    results = file.readlines()
+    
+    for i in results:
+        listbox.insert(END, i)
+        
+    listbox.config(yscrollcommand=scrollbar.set)
+    scrollbar.config(command=listbox.yview)
+    
+    backButton = Button(window, text='Go back',  font=('Helvetica', 10), background='#E5EFC1', command=GoBackCommand)
+    backButton.pack(side=BOTTOM, fill=BOTH)
     
 LoginWindow()
