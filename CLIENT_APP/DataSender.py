@@ -1,16 +1,17 @@
 import socket               # Import socket module
 import os
-#import paramiko
+import pathlib
 
 def SendToFileServer(directoryName):
     SIZE = 1024
     FORMAT = 'utf-8'
-    IP = socket.gethostbyname(socket.gethostname())
-    PORT = 4455
+    IP = '10.61.3.218'
+    #IP = socket.gethostbyname(socket.gethostname())
+    PORT = 12346
     ADDR = (IP, PORT)
     
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect(ADDR)
+    client.connect((IP, PORT))
     
     #send directoryName
     msg = f'{directoryName}'
@@ -22,7 +23,8 @@ def SendToFileServer(directoryName):
     print(f'[SERVER] {msg}\n')
     
     #sending .mrxs file content
-    file = open(os.path.join(directoryName, directoryName + '.mrxs'), 'rb')
+    path = os.path.join(pathlib.Path(__file__).parent.resolve(), directoryName + '\\' + directoryName + '.mrxs')
+    file = open(path, 'rb')
     file_data = file.read()
     print('[CLIENT] Sending .mrxs file data...')
     client.sendall(file_data)
@@ -35,7 +37,7 @@ def SendToFileServer(directoryName):
     
     
     #list files in directory
-    path = os.path.join(directoryName, directoryName)
+    path = os.path.join(pathlib.Path(__file__).parent.resolve(), directoryName + '\\' + directoryName)
     files = sorted(os.listdir(path))
     
     
@@ -74,12 +76,13 @@ def SendToFileServer(directoryName):
 def SendToCentralServer(date, user, jobID, directoryName):
     SIZE = 1024
     FORMAT = 'utf-8'
-    IP = socket.gethostbyname(socket.gethostname())
-    PORT = 4455
+    IP = '10.61.3.218'
+    #IP = socket.gethostbyname(socket.gethostname())
+    PORT = 12345
     ADDR = (IP, PORT)
     
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect(ADDR)
+    client.connect((IP, PORT))
     
     
     toSend = str(date) + ';' + str(user) + ';' + str(jobID) + ';' + str(directoryName)    
