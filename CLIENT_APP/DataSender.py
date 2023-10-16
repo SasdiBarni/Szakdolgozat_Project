@@ -6,7 +6,6 @@ def SendToFileServer(directoryName):
     SIZE = 1024
     FORMAT = 'utf-8'
     IP = '10.61.3.218'
-    #IP = socket.gethostbyname(socket.gethostname())
     PORT = 12346
     ADDR = (IP, PORT)
     
@@ -77,7 +76,6 @@ def SendToCentralServer(date, user, jobID, directoryName):
     SIZE = 1024
     FORMAT = 'utf-8'
     IP = '10.61.3.218'
-    #IP = socket.gethostbyname(socket.gethostname())
     PORT = 12345
     ADDR = (IP, PORT)
     
@@ -92,4 +90,7 @@ def SendToCentralServer(date, user, jobID, directoryName):
     
     msg = 'Disconnected.'
     client.send(msg.encode(FORMAT))
+    
+    msg = client.recv(SIZE).decode(FORMAT)
+    
     client.close()

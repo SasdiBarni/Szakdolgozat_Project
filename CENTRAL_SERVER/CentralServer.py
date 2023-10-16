@@ -5,7 +5,6 @@ import socket
 
 def main():
     
-    
     print('VERSION 1')
     data = StartServer().split(';')
     

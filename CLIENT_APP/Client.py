@@ -5,6 +5,8 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import filedialog
 from datetime import datetime
+import smbclient
+import visualizer
 
 class DatasForServer:
     def __init__(myobject, Date, User, JobID, Path, directoryName):
@@ -96,12 +98,12 @@ def ClientWindow(user):
             sendBack.directoryName = str(directoryList[len(directoryList) - 1])
             
             DataSender.SendToCentralServer(sendBack.Date, sendBack.User, sendBack.JobID, sendBack.directoryName)
-            DataSender.SendToFileServer(sendBack.directoryName)
+            #DataSender.SendToFileServer(sendBack.directoryName)
             
         else:
             messagebox.showinfo(title='Error', message='Please select a file and a job!')    
     
-    #! NEED TO DEFINE LATER
+    
     def ResultsCommand():
         window.destroy()
         ResultWindow(user)
@@ -161,23 +163,40 @@ def ResultWindow(user):
     def GoBackCommand():
         window.destroy()
         ClientWindow(user)
+        
+    def visualizeChart():
+        selected_index = listbox.curselection()
+        if selected_index:
+            selected_item = listbox.get(selected_index[0])
+            smbclient.ClientConfig(username='BioTech2070', password='admin2070')    
+            file = smbclient.open_file(f'\\DESKTOP-NESD1EN\\Users\\BioTech2070\\Documents\\BARNI\\FILE_SERVER\\results\\{selected_item}.txt', mode="r")
+            results = file.readlines()
+            
+            job = str(selected_item).split('_')
+            
+            if job[2] == 'Cell seed detection and counting':                      
+                visualizer.barChartCellSeedDetection(results)                
+                
+            file.close()
     
     scrollbar = Scrollbar(window)
     scrollbar.pack(side=RIGHT, fill=Y)
     listbox = Listbox(window)
     listbox.pack(side=TOP, fill=X)
-    
-    file = open('C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results\\results.txt', 'r')
-    
-    results = file.readlines()
-    
-    for i in results:
-        listbox.insert(END, i)
         
+    files = os.listdir(r'\\DESKTOP-NESD1EN\\Users\\BioTech2070\\Documents\\BARNI\\FILE_SERVER\\results\\')
+    
+    for i in files:
+        filename = i.split('.')
+        listbox.insert(END, filename[0])
+    
     listbox.config(yscrollcommand=scrollbar.set)
     scrollbar.config(command=listbox.yview)
     
+    print_button = Button(window, text="Show diagramms", font=('Helvetica', 10), background='#E5EFC1', command=visualizeChart)
+    print_button.pack()
+    
     backButton = Button(window, text='Go back',  font=('Helvetica', 10), background='#E5EFC1', command=GoBackCommand)
-    backButton.pack(side=BOTTOM, fill=BOTH)
+    backButton.pack(side=BOTTOM)
     
 LoginWindow()
