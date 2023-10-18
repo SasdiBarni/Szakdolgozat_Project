@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 
 def barChartCellSeedDetection(list):
     
-    
     # x axis values 
     tick_label = range(len(list))
     
@@ -19,6 +18,3 @@ def barChartCellSeedDetection(list):
     plt.xlabel('Tiles')
     plt.grid(True)
     plt.show()
-    
-  
-    

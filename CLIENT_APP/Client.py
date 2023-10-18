@@ -91,14 +91,14 @@ def ClientWindow(user):
                         
             sendBack.User = user #name of the logged in user
             sendBack.Path = directoryEntry.get() #the path of thr directory locally that needs to be uploaded to the file server
-            sendBack.Date = datetime.now() #the date of the upload start
+            sendBack.Date = datetime.now().replace(microsecond=0) #the date of the upload start
             sendBack.JobID = algorythms.get() #ID of the algorythm
             
             directoryList = sendBack.Path.split('\\')
             sendBack.directoryName = str(directoryList[len(directoryList) - 1])
             
             DataSender.SendToCentralServer(sendBack.Date, sendBack.User, sendBack.JobID, sendBack.directoryName)
-            #DataSender.SendToFileServer(sendBack.directoryName)
+            DataSender.SendToFileServer(sendBack.directoryName)
             
         else:
             messagebox.showinfo(title='Error', message='Please select a file and a job!')    
@@ -171,10 +171,10 @@ def ResultWindow(user):
             smbclient.ClientConfig(username='BioTech2070', password='admin2070')    
             file = smbclient.open_file(f'\\DESKTOP-NESD1EN\\Users\\BioTech2070\\Documents\\BARNI\\FILE_SERVER\\results\\{selected_item}.txt', mode="r")
             results = file.readlines()
-            
+                        
             job = str(selected_item).split('_')
             
-            if job[2] == 'Cell seed detection and counting':                      
+            if job[5] == 'Cell seed detection and counting':                      
                 visualizer.barChartCellSeedDetection(results)                
                 
             file.close()

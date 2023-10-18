@@ -5,17 +5,17 @@ def main():
     StartServer()
         
 def StartServer():
-    IP = socket.gethostbyname(socket.gethostname())
-    PORT = 4455
+    IP = '10.61.3.218'
+    PORT = 12346
     ADDR = (IP, PORT)
     SIZE = 1024
     FORMAT = 'utf-8'
-    SERVER_FOLDER = 'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\slides'
+    SERVER_FOLDER = 'C:\\Users\\BioTech2070\\Documents\\BARNI\\FILE_SERVER\\slides'
     #SERVER_FOLDER = 'media\\nfs\\slides'
     
     print('[STARTING] Server is starting.')
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind(ADDR)
+    server.bind((IP, PORT))
     server.listen()
     print('[LISTENING] Server is listening.')
     
@@ -25,6 +25,11 @@ def StartServer():
         
         folder_name = conn.recv(SIZE).decode(FORMAT)
         
+        path = os.path.join(os.getcwd(), folder_name)
+
+        if os.path.isdir(path):
+            return
+
         mrxs_name = folder_name + '.mrxs'
         
         #slides/folder_name/folder_name

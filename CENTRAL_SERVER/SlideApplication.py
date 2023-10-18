@@ -10,7 +10,7 @@ def OpenSlide(directoryName, jobId, date, user):
     base_url='http://localhost:5120/'
     ssi = simpleslideinterface.MinimalWrapper(base_url=base_url, raise_for_status=True)
     
-    slide_path = f'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\slides\\{directoryName}\\{directoryName}'
+    slide_path = f'C:\\Users\\BioTech2070\\Documents\\BARNI\\FILE_SERVER\\slides\\{directoryName}\\{directoryName}'
     #slide_path = f'media\\nfs\\slides\\{directoryName}\\{directoryName}'
     slide_token = ssi.post('slide/open/local/{}', slide_path, readonly=True).json()
     print(f'Created slide token: [{slide_token}]')
@@ -89,13 +89,12 @@ def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName, date, 
                     #seedNum += len(black_dots)
                     seedNums.append(len(black_dots))
                 '''
-        
-        result = open('C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results\\results.txt', 'w')
-        
-        #for num in seedNums:
-        #    result.write(f'{num}\n')
+
+        datee = str(date).replace(':','_')        
+
+        result = open(f'C:\\Users\\BioTech2070\\Documents\\BARNI\\FILE_SERVER\\results\\{datee}_{user}_{directoryName}_{jobId}_{str(seedNum)}.txt', 'w')
+
+        for num in seedNums:
+           result.write(f'{num}\n')
             
-        result.write(f'{date} - {user} - {directoryName} - {jobId} :: {str(seedNum)}\n')
         print('\n[SERVER] Finished!')
-        
-        #result = open(f'media\\nfs\\results\\{directoryName}.txt', 'w')
