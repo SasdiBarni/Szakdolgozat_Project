@@ -126,9 +126,6 @@ def ClientWindow(user):
             else:
                 messagebox.showinfo(title='Error', message='Please select an EXISTING file directory!')
                     
-            
-            
-            
         else:
             messagebox.showinfo(title='Error', message='Please select a file and a job!')    
     
