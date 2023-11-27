@@ -100,8 +100,6 @@ def StartServer():
             print(f'[SERVER] File data recived and saved.\n')
             conn.send('File data recived and saved.'.encode(FORMAT))
             file.close()
-            
-        
-    
+               
 if __name__ == '__main__':
     main()

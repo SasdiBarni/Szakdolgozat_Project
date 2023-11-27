@@ -34,11 +34,9 @@ def SendToFileServer(directoryName):
     msg = client.recv(SIZE).decode(FORMAT)
     print(f'[SERVER] {msg}\n')
     
-    
     #list files in directory
     path = os.path.join(pathlib.Path(__file__).parent.resolve(), directoryName + '\\' + directoryName)
     files = sorted(os.listdir(path))
-    
     
     for file_name in files:
         
@@ -64,14 +62,12 @@ def SendToFileServer(directoryName):
         
         msg = client.recv(SIZE).decode(FORMAT)
         print(f'[SERVER] {msg}\n')
-        
-        
+           
     msg = f'File transfer complete'
     client.send(msg.encode(FORMAT))
     client.close()    
     return
-    
-    
+       
 def SendToCentralServer(date, user, jobID, directoryName):
     SIZE = 1024
     FORMAT = 'utf-8'

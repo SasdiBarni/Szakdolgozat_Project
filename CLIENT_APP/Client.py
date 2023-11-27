@@ -42,7 +42,6 @@ def LoginWindow():
         else:
             messagebox.showinfo(title='Error', message='Wrong username or password!')
 
-
     titleLabel = Label(window, text='You have to login first!', font=('Helvetica', 12), background='#39AEA9').grid(row=0, column=1)
 
     userLabel = Label(window, text='Username:', font=('Helvetica', 10), background='#39AEA9').grid(row=1, column=0)
@@ -163,7 +162,6 @@ def ClientWindow(user):
 
     logoutButton = Button(window, text='Logout',  font=('Helvetica', 10), width=10, background='#E5EFC1', command=LogOut).grid(row=3, column=1, sticky='e')
 
-    
     window.mainloop()
 
 def ResultWindow(user):

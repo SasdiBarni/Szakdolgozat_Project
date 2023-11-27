@@ -24,7 +24,6 @@ def OpenSlide(directoryName, jobId, date, user):
     
     GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName, date, user)
     
-
 def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName, date, user):
     
     if jobId == 'Cell seed detection and counting':
