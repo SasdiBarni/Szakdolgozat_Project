@@ -12,14 +12,15 @@ def main():
     JobID = data[2]
     directoryName = data[3]
 
-    FileServer.main()
+    #FileServer.main()
 
     SlideApplication.OpenSlide(directoryName, JobID, Date, User)
 
     main()
 
 def StartServer():
-    IP = '10.61.3.218'
+    IP=socket.gethostbyname(socket.gethostname())
+    #IP = '10.61.3.218'
     PORT = 12345
     ADDR = (IP, PORT)
     SIZE = 1024

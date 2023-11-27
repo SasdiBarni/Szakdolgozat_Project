@@ -90,24 +90,51 @@ def ClientWindow(user):
         if directoryEntry.get() != '' or algorythms.get() != '-- Select from list below --':
                         
             sendBack.User = user #name of the logged in user
-            sendBack.Path = directoryEntry.get() #the path of thr directory locally that needs to be uploaded to the file server
+            sendBack.Path = directoryEntry.get() #the path of the directory locally that needs to be uploaded to the file server
             sendBack.Date = datetime.now().replace(microsecond=0) #the date of the upload start
             sendBack.JobID = algorythms.get() #ID of the algorythm
             
             directoryList = sendBack.Path.split('\\')
             sendBack.directoryName = str(directoryList[len(directoryList) - 1])
             
-            DataSender.SendToCentralServer(sendBack.Date, sendBack.User, sendBack.JobID, sendBack.directoryName)
-            DataSender.SendToFileServer(sendBack.directoryName)
+            if os.path.exists(sendBack.Path):
+                
+                mrxs_path = sendBack.Path + "\\" + sendBack.directoryName + ".mrxs"
+                
+                if os.path.exists(mrxs_path):
+                    
+                    if os.path.getsize(mrxs_path) > 0:
+                        
+                        if os.path.exists(sendBack.Path + "\\" + sendBack.directoryName):
+                            
+                            if len(os.listdir(sendBack.Path + "\\" + sendBack.directoryName)) != 0:
+                                
+                                DataSender.SendToCentralServer(sendBack.Date, sendBack.User, sendBack.JobID, sendBack.directoryName)
+                                DataSender.SendToFileServer(sendBack.directoryName)
+                            else:
+                                messagebox.showinfo(title='Error', message='There are no files in the subdirectory!')
+                                
+                        else:
+                            messagebox.showinfo(title='Error', message='There is no subdirectory within the main folder!')
+                            
+                    else:
+                        messagebox.showinfo(title='Error', message='The .MRXS file is empty!')
+                        
+                else:
+                    messagebox.showinfo(title='Error', message='There is no .MRXS file found in directory!')
+                    
+            else:
+                messagebox.showinfo(title='Error', message='Please select an EXISTING file directory!')
+                    
+            
+            
             
         else:
             messagebox.showinfo(title='Error', message='Please select a file and a job!')    
     
-    
     def ResultsCommand():
         window.destroy()
         ResultWindow(user)
-        
     
     def LogOut():
         window.destroy()

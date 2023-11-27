@@ -75,7 +75,8 @@ def SendToFileServer(directoryName):
 def SendToCentralServer(date, user, jobID, directoryName):
     SIZE = 1024
     FORMAT = 'utf-8'
-    IP = '10.61.3.218'
+    IP=socket.gethostbyname(socket.gethostname())
+    #IP = '10.61.3.218'
     PORT = 12345
     ADDR = (IP, PORT)
     

@@ -3,14 +3,14 @@ import json
 import numpy as np
 from numpy import asarray
 import cv2
-import os
 
 def OpenSlide(directoryName, jobId, date, user):
     
     base_url='http://localhost:5120/'
     ssi = simpleslideinterface.MinimalWrapper(base_url=base_url, raise_for_status=True)
     
-    slide_path = f'C:\\Users\\BioTech2070\\Documents\\BARNI\\FILE_SERVER\\slides\\{directoryName}\\{directoryName}'
+    slide_path = f'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\slides\\{directoryName}\\{directoryName}'
+    #slide_path = f'C:\\Users\\BioTech2070\\Documents\\BARNI\\FILE_SERVER\\slides\\{directoryName}\\{directoryName}'
     #slide_path = f'media\\nfs\\slides\\{directoryName}\\{directoryName}'
     slide_token = ssi.post('slide/open/local/{}', slide_path, readonly=True).json()
     print(f'Created slide token: [{slide_token}]')
@@ -45,6 +45,7 @@ def GetTilesFromSlide(ssi, slide_token, properties, jobId, directoryName, date, 
                 
                 gray = cv2.cvtColor(numpyArray, cv2.COLOR_BGR2GRAY)
 
+                #thresh_for_seeds = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_TOZERO_INV, 21, 10)
                 thresh_for_seeds = cv2.threshold(gray, 135, 255, cv2.THRESH_TOZERO_INV)[1]
 
                 cnts_for_seeds = cv2.findContours(thresh_for_seeds, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
