@@ -12,9 +12,9 @@ def main():
     JobID = data[2]
     directoryName = data[3]
 
-    #FileServer.main()
+    FileServer.main()
 
-    SlideApplication.OpenSlide(directoryName, JobID, Date, User)
+    #SlideApplication.OpenSlide(directoryName, JobID, Date, User)
 
     main()
 

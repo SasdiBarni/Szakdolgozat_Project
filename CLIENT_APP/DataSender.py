@@ -3,9 +3,11 @@ import os
 import pathlib
 
 def SendToFileServer(directoryName):
+
     SIZE = 1024
     FORMAT = 'utf-8'
-    IP = '10.61.3.218'
+    IP=socket.gethostbyname(socket.gethostname())
+    #IP = '10.61.3.218'
     PORT = 12346
     ADDR = (IP, PORT)
     
@@ -20,6 +22,7 @@ def SendToFileServer(directoryName):
     #server reply
     msg = client.recv(SIZE).decode(FORMAT)
     print(f'[SERVER] {msg}\n')
+    
     
     #sending .mrxs file content
     path = os.path.join(pathlib.Path(__file__).parent.resolve(), directoryName + '\\' + directoryName + '.mrxs')

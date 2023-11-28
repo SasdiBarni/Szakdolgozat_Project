@@ -4,6 +4,7 @@ import UserAuthenticate
 from tkinter import *
 from tkinter import messagebox
 from tkinter import filedialog
+from tkinter import ttk
 from datetime import datetime
 import smbclient
 import visualizer
@@ -83,14 +84,14 @@ def ClientWindow(user):
         directory = filedialog.askdirectory()
         directoryEntry.delete(0, 1000)
         directoryEntry.insert(0, os.path.abspath(directory))
-    
+        
     def SendCommand():
         
         if directoryEntry.get() != '' or algorythms.get() != '-- Select from list below --':
                         
             sendBack.User = user #name of the logged in user
             sendBack.Path = directoryEntry.get() #the path of the directory locally that needs to be uploaded to the file server
-            sendBack.Date = datetime.now().replace(microsecond=0) #the date of the upload start
+            sendBack.Date = datetime.now().replace(microsecond=0) #the date and time of the upload start
             sendBack.JobID = algorythms.get() #ID of the algorythm
             
             directoryList = sendBack.Path.split('\\')
@@ -110,6 +111,7 @@ def ClientWindow(user):
                                 
                                 DataSender.SendToCentralServer(sendBack.Date, sendBack.User, sendBack.JobID, sendBack.directoryName)
                                 DataSender.SendToFileServer(sendBack.directoryName)
+                                
                             else:
                                 messagebox.showinfo(title='Error', message='There are no files in the subdirectory!')
                                 
@@ -146,7 +148,7 @@ def ClientWindow(user):
     
     OPTIONS = [
         '-- Select from list below --',
-        'Cell seed detection and counting'
+        'Cell nuclei detection and counting'
     ]
 
     algorythms = StringVar(window)
@@ -206,7 +208,8 @@ def ResultWindow(user):
     listbox = Listbox(window)
     listbox.pack(side=TOP, fill=X)
         
-    files = os.listdir(r'\\DESKTOP-NESD1EN\\Users\\BioTech2070\\Documents\\BARNI\\FILE_SERVER\\results\\')
+    #files = os.listdir(r'\\DESKTOP-NESD1EN\\Users\\BioTech2070\\Documents\\BARNI\\FILE_SERVER\\results\\')
+    files = os.listdir(r'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\results')
     
     for i in files:
         filename = i.split('.')

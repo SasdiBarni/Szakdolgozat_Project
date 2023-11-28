@@ -5,13 +5,14 @@ def main():
     StartServer()
         
 def StartServer():
-    IP = '10.61.3.218'
+    IP = socket.gethostbyname(socket.gethostname())
+    #IP = '10.61.3.218'
     PORT = 12346
     ADDR = (IP, PORT)
     SIZE = 1024
     FORMAT = 'utf-8'
-    SERVER_FOLDER = 'C:\\Users\\BioTech2070\\Documents\\BARNI\\FILE_SERVER\\slides'
-    #SERVER_FOLDER = 'media\\nfs\\slides'
+    #SERVER_FOLDER = 'C:\\Users\\BioTech2070\\Documents\\BARNI\\FILE_SERVER\\slides'
+    SERVER_FOLDER = 'C:\\Users\\sasdi\\Documents\\Szakdolgozat_Project\\FILE_SERVER\\slides\\8808-04Ep'
     
     print('[STARTING] Server is starting.')
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -34,6 +35,7 @@ def StartServer():
         
         #slides/folder_name/folder_name
         folder_path = os.path.join(SERVER_FOLDER, folder_name, folder_name)
+        
         
         os.makedirs(folder_path)
         conn.send(f'Folder ({folder_name}) created.'.encode(FORMAT))
